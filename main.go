@@ -1,8 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"tinygo.org/x/drivers/ws2812"
+)
 
 func main() {
 
-	fmt.Printf("coucou")
+	fmt.Println("coucou")
+	Device ruban = ws2812.New(37)
 }
