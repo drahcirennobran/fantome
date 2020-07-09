@@ -44,30 +44,31 @@ func main() {
 
 	for k := 0; k < 5; k++ {
 		for j := 0; j < 5; j++ {
-			coincoin(ws, 0x0000ff, 0x000000)
+			coincoin(ws, 0x0000ff, 0x000000, *brightness)
 			time.Sleep(20 * time.Millisecond)
-			coincoin(ws, 0x000000, 0x0000)
+			coincoin(ws, 0x000000, 0x0000, *brightness)
 			time.Sleep(20 * time.Millisecond)
 		}
 		for j := 0; j < 5; j++ {
-			coincoin(ws, 0x000000, 0xff0000)
+			coincoin(ws, 0x000000, 0xff0000, *brightness)
 			time.Sleep(20 * time.Millisecond)
-			coincoin(ws, 0x000000, 0x0000)
+			coincoin(ws, 0x000000, 0x0000, *brightness)
 			time.Sleep(20 * time.Millisecond)
 		}
 	}
-	coincoin(ws, 0x000000ff, 0x0000ff)
+
 	for j := 0; j < 255; j++ {
-		ws.SetBrightness(0, j)
+		coincoin(ws, 0x000000ff, 0x0000ff, j)
 	}
 	for j := 255; j >= 0; j-- {
-		ws.SetBrightness(0, j)
+		coincoin(ws, 0x000000, 0x0000, j)
 	}
-	coincoin(ws, 0x000000, 0x0000)
 
 	ws.Fini()
 }
-func coincoin(ws *ws2811.WS2811, color1, color2 uint32) {
+func coincoin(ws *ws2811.WS2811, color1, color2 uint32, b int) {
+	ws.SetBrightness(0, b)
+
 	bitmap := make([]uint32, 10)
 	for i := 0; i < 5; i++ {
 		bitmap[i] = color1
