@@ -19,7 +19,7 @@ func checkError(err error) {
 func main() {
 
 	gpioPin := flag.Int("gpio-pin", 18, "GPIO pin")
-	brightness := flag.Int("brightness", 64, "Brightness (0-255)")
+	brightness := flag.Int("brightness", 128, "Brightness (0-255)")
 
 	flag.Parse()
 
@@ -60,9 +60,6 @@ func main() {
 	for k := 0; k < 5; k++ {
 		for j := 0; j < 255; j++ {
 			coincoin(ws, 0x000000ff, 0x0000ff, j)
-		}
-		for j := 255; j >= 0; j-- {
-			coincoin(ws, 0x000000, 0x0000, j)
 		}
 	}
 	ws.Fini()
