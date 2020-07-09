@@ -9,11 +9,6 @@ import (
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
 
-const (
-	//pixelColor = 255 << 16 // red
-	pixelColor = 0x0000ff
-)
-
 func checkError(err error) {
 	if err != nil {
 		panic(err)
@@ -52,20 +47,16 @@ func main() {
 
 	bitmap := make([]uint32, size)
 
-	for i := 0; i < size; i++ {
-		if i > 0 {
-			bitmap[i-1] = 0
-		}
-
-		bitmap[i] = pixelColor
-		copy(ws.Leds(0), bitmap)
-		ws.Render()
-		ws.Wait()
+	for i := 0; i < 5; i++ {
+		bitmap[i] = 0x0000ff
 	}
 
-	for i := 0; i < len(ws.Leds(0)); i++ {
-		ws.Leds(0)[i] = 0
+	for i := 0; i < 5; i++ {
+		bitmap[i] = 0xff0000
 	}
+	copy(ws.Leds(0), bitmap)
+	ws.Render()
+	ws.Wait()
 
 	ws.Fini()
 }
