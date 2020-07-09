@@ -91,10 +91,11 @@ func main() {
 	for k := 0; k < 10; k++ {
 		for j := 0; j < 10; j++ {
 			coincoin(ws, bitmapScroll[j], *brightness)
-
+			time.Sleep(20 * time.Millisecond)
 		}
-		for j := 9; j >= 0; j-- {
+		for j := 8; j >= 0; j-- {
 			coincoin(ws, bitmapScroll[j], *brightness)
+			time.Sleep(20 * time.Millisecond)
 		}
 	}
 	coincoin(ws, bit10N, 0)
