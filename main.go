@@ -93,7 +93,7 @@ func main() {
 			coincoin(ws, bitmapScroll[j], *brightness)
 
 		}
-		for j := 10; j >= 0; j-- {
+		for j := 9; j >= 0; j-- {
 			coincoin(ws, bitmapScroll[j], *brightness)
 		}
 	}
