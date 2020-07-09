@@ -76,7 +76,7 @@ func main() {
 			coincoin(ws, bit10B, j)
 		}
 	}
-	bitmapScroll := [][]uint32{
+	bitmapScroll1 := [][]uint32{
 		{bleu, noir, noir, noir, noir, noir, noir, noir, noir, noir},
 		{noir, bleu, noir, noir, noir, noir, noir, noir, noir, noir},
 		{noir, noir, bleu, noir, noir, noir, noir, noir, noir, noir},
@@ -88,18 +88,34 @@ func main() {
 		{noir, noir, noir, noir, noir, noir, noir, noir, bleu, noir},
 		{noir, noir, noir, noir, noir, noir, noir, noir, noir, bleu}}
 
+	bitmapScroll2 := [][]uint32{
+		{bleu, bleu, bleu, bleu, bleu, bleu, bleu, bleu, bleu, bleu},
+		{bleu, bleu, bleu, bleu, rouge, bleu, bleu, bleu, bleu, bleu},
+		{bleu, bleu, bleu, bleu, rouge, rouge, bleu, bleu, bleu, bleu},
+		{bleu, bleu, bleu, rouge, rouge, rouge, bleu, bleu, bleu, bleu},
+		{bleu, bleu, rouge, rouge, rouge, rouge, bleu, bleu, bleu, bleu},
+		{bleu, bleu, rouge, rouge, rouge, rouge, rouge, bleu, bleu, bleu},
+		{bleu, rouge, rouge, rouge, rouge, rouge, rouge, bleu, bleu, bleu},
+		{bleu, rouge, rouge, rouge, rouge, rouge, rouge, rouge, bleu, bleu},
+		{rouge, rouge, rouge, rouge, rouge, rouge, rouge, rouge, rouge, rouge},
+		{rouge, rouge, rouge, rouge, rouge, rouge, rouge, rouge, rouge, rouge}}
+	bitmapPong(ws, bitmapScroll1, *brightness, 5)
+	bitmapPong(ws, bitmapScroll2, *brightness, 5)
+	coincoin(ws, bit10N, 0)
+	ws.Fini()
+}
+func bitmapPong(ws *ws2811.WS2811, bitmap [][]uint32, brightness int, repeat int) {
 	for k := 0; k < 10; k++ {
 		for j := 0; j < 10; j++ {
-			coincoin(ws, bitmapScroll[j], *brightness)
+			coincoin(ws, bitmap[j], brightness)
 			time.Sleep(20 * time.Millisecond)
 		}
 		for j := 8; j >= 0; j-- {
-			coincoin(ws, bitmapScroll[j], *brightness)
+			coincoin(ws, bitmap[j], brightness)
 			time.Sleep(20 * time.Millisecond)
 		}
 	}
-	coincoin(ws, bit10N, 0)
-	ws.Fini()
+
 }
 func coincoin(ws *ws2811.WS2811, bitmap []uint32, b int) {
 	ws.SetBrightness(0, b)
