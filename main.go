@@ -105,7 +105,7 @@ func main() {
 	ws.Fini()
 }
 func bitmapPong(ws *ws2811.WS2811, bitmap [][]uint32, brightness int, repeat int) {
-	for k := 0; k < 10; k++ {
+	for k := 0; k < repeat; k++ {
 		for j := 0; j < 10; j++ {
 			coincoin(ws, bitmap[j], brightness)
 			time.Sleep(20 * time.Millisecond)
