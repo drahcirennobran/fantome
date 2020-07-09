@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os/user"
 	"runtime"
+	"time"
 
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
@@ -43,6 +44,9 @@ func main() {
 
 	for j := 0; j < 20; j++ {
 		coincoin(ws, 0x0000ff, 0xff0000)
+		time.Sleep(100 * time.Millisecond)
+		coincoin(ws, 0xff0000, 0x0000ff)
+		time.Sleep(100 * time.Millisecond)
 	}
 
 	ws.Fini()
