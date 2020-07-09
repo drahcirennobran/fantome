@@ -1,10 +1,11 @@
 package main
 
-	import (
+import (
 	"flag"
 	"fmt"
 	"os/user"
 	"runtime"
+
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
 )
 
@@ -28,7 +29,7 @@ func main() {
 	flag.Parse()
 
 	user, err := user.Current()
-	checkError(err);
+	checkError(err)
 
 	if runtime.GOARCH == "arm" && user.Uid != "0" {
 		fmt.Println("This test requires root privilege")
@@ -37,12 +38,12 @@ func main() {
 	}
 
 	size := *width * *height
-	opt := DefaultOptions
+	opt := ws2811.DefaultOptions
 	opt.Channels[0].Brightness = *brightness
 	opt.Channels[0].LedCount = size
 	opt.Channels[0].GpioPin = *gpioPin
 
-	ws, err := MakeWS2811(&opt)
+	ws, err := ws2811.MakeWS2811(&opt)
 	checkError(err)
 
 	err = ws.Init()
@@ -57,8 +58,8 @@ func main() {
 
 		bitmap[i] = pixelColor
 		copy(ws.Leds(0), bitmap)
-		assert.Nil(t, ws.Render())
-		assert.Nil(t, ws.Wait())
+		ws.Render()
+		ws.Wait()
 	}
 
 	for i := 0; i < len(ws.Leds(0)); i++ {
