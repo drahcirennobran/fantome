@@ -51,10 +51,11 @@ func main() {
 		bitmap[i] = 0x0000ff
 	}
 
-	for i := 0; i < 5; i++ {
+	for i := 5; i < 10; i++ {
 		bitmap[i] = 0xff0000
 	}
 	copy(ws.Leds(0), bitmap)
+
 	ws.Render()
 	ws.Wait()
 
