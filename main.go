@@ -43,14 +43,14 @@ func main() {
 	checkError(err)
 
 	for k := 0; k < 20; k++ {
-		for j := 0; j < 20; j++ {
-			coincoin(ws, 0x0000ff, 0x0000ff)
+		for j := 0; j < 5; j++ {
+			coincoin(ws, 0x0000ff, 0x000000)
 			time.Sleep(20 * time.Millisecond)
 			coincoin(ws, 0x000000, 0x0000)
 			time.Sleep(20 * time.Millisecond)
 		}
-		for j := 0; j < 20; j++ {
-			coincoin(ws, 0xff0000, 0xff0000)
+		for j := 0; j < 5; j++ {
+			coincoin(ws, 0x000000, 0xff0000)
 			time.Sleep(20 * time.Millisecond)
 			coincoin(ws, 0x000000, 0x0000)
 			time.Sleep(20 * time.Millisecond)
