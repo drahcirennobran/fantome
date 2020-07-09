@@ -18,8 +18,6 @@ func checkError(err error) {
 func main() {
 
 	gpioPin := flag.Int("gpio-pin", 18, "GPIO pin")
-	width := flag.Int("width", 10, "LED matrix width")
-	height := flag.Int("height", 1, "LED matrix height")
 	brightness := flag.Int("brightness", 64, "Brightness (0-255)")
 
 	flag.Parse()
@@ -33,10 +31,8 @@ func main() {
 		checkError(err)
 	}
 
-	size := *width * *height
 	opt := ws2811.DefaultOptions
 	opt.Channels[0].Brightness = *brightness
-	opt.Channels[0].LedCount = size
 	opt.Channels[0].GpioPin = *gpioPin
 
 	ws, err := ws2811.MakeWS2811(&opt)
@@ -45,19 +41,21 @@ func main() {
 	err = ws.Init()
 	checkError(err)
 
-	bitmap := make([]uint32, size)
-
-	for i := 0; i < 5; i++ {
-		bitmap[i] = 0x0000ff
+	for j := 0; j < 20; j++ {
+		coincoin(ws, 0x0000ff, 0xff0000)
 	}
-
-	for i := 5; i < 10; i++ {
-		bitmap[i] = 0xff0000
-	}
-	copy(ws.Leds(0), bitmap)
-
-	ws.Render()
-	ws.Wait()
 
 	ws.Fini()
+}
+func coincoin(ws *ws2811.WS2811, color1, color2 uint32) {
+	bitmap := make([]uint32, 10)
+	for i := 0; i < 5; i++ {
+		bitmap[i] = color1
+	}
+	for i := 5; i < 10; i++ {
+		bitmap[i] = color2
+	}
+	copy(ws.Leds(0), bitmap)
+	ws.Render()
+	ws.Wait()
 }
