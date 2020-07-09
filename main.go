@@ -62,6 +62,7 @@ func main() {
 			coincoin(ws, 0x000000ff, 0x0000ff, j)
 		}
 	}
+	coincoin(ws, 0x00000000, 0x000000, 0)
 	ws.Fini()
 }
 func coincoin(ws *ws2811.WS2811, color1, color2 uint32, b int) {
