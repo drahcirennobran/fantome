@@ -16,6 +16,13 @@ func checkError(err error) {
 	}
 }
 
+const (
+	noir  uint32 = 0x000000
+	rouge uint32 = 0xff0000
+	bleu  uint32 = 0x0000ff
+	vert  uint32 = 0x00ff00
+)
+
 func main() {
 
 	gpioPin := flag.Int("gpio-pin", 18, "GPIO pin")
@@ -42,39 +49,60 @@ func main() {
 	err = ws.Init()
 	checkError(err)
 
+	//var bitRB = []uint32{rouge, rouge, rouge, rouge, rouge, bleu, bleu, bleu, bleu, bleu}
+	//var bitBR = []uint32{bleu, bleu, bleu, bleu, bleu, rouge, rouge, rouge, rouge, rouge}
+	var bit10N = []uint32{noir, noir, noir, noir, noir, noir, noir, noir, noir, noir}
+	var bit5B5N = []uint32{bleu, bleu, bleu, bleu, bleu, noir, noir, noir, noir, noir}
+	var bit10B = []uint32{bleu, bleu, bleu, bleu, bleu, bleu, bleu, bleu, bleu, bleu}
+	var bit5N5R = []uint32{noir, noir, noir, noir, noir, rouge, rouge, rouge, rouge, rouge}
+
 	for k := 0; k < 5; k++ {
 		for j := 0; j < 5; j++ {
-			coincoin(ws, 0x0000ff, 0x000000, *brightness)
+			coincoin(ws, bit5B5N, *brightness)
 			time.Sleep(20 * time.Millisecond)
-			coincoin(ws, 0x000000, 0x0000, *brightness)
+			coincoin(ws, bit10N, *brightness)
 			time.Sleep(20 * time.Millisecond)
 		}
 		for j := 0; j < 5; j++ {
-			coincoin(ws, 0x000000, 0xff0000, *brightness)
+			coincoin(ws, bit5N5R, *brightness)
 			time.Sleep(20 * time.Millisecond)
-			coincoin(ws, 0x000000, 0x0000, *brightness)
+			coincoin(ws, bit10N, *brightness)
 			time.Sleep(20 * time.Millisecond)
 		}
 	}
 
 	for k := 0; k < 5; k++ {
 		for j := 0; j < 255; j++ {
-			coincoin(ws, 0x000000ff, 0x0000ff, j)
+			coincoin(ws, bit10B, j)
 		}
 	}
-	coincoin(ws, 0x00000000, 0x000000, 0)
+	bitmapScroll := [][]uint32{
+		{bleu, noir, noir, noir, noir, noir, noir, noir, noir, noir},
+		{noir, bleu, noir, noir, noir, noir, noir, noir, noir, noir},
+		{noir, noir, bleu, noir, noir, noir, noir, noir, noir, noir},
+		{noir, noir, noir, bleu, noir, noir, noir, noir, noir, noir},
+		{noir, noir, noir, noir, bleu, noir, noir, noir, noir, noir},
+		{noir, noir, noir, noir, noir, bleu, noir, noir, noir, noir},
+		{noir, noir, noir, noir, noir, noir, bleu, noir, noir, noir},
+		{noir, noir, noir, noir, noir, noir, noir, bleu, noir, noir},
+		{noir, noir, noir, noir, noir, noir, noir, noir, bleu, noir},
+		{noir, noir, noir, noir, noir, noir, noir, noir, noir, bleu}}
+
+	for k := 0; k < 10; k++ {
+		for j := 0; j < 10; j++ {
+			coincoin(ws, bitmapScroll[j], *brightness)
+
+		}
+		for j := 10; j >= 0; j-- {
+			coincoin(ws, bitmapScroll[j], *brightness)
+		}
+	}
+	coincoin(ws, bit10N, 0)
 	ws.Fini()
 }
-func coincoin(ws *ws2811.WS2811, color1, color2 uint32, b int) {
+func coincoin(ws *ws2811.WS2811, bitmap []uint32, b int) {
 	ws.SetBrightness(0, b)
 
-	bitmap := make([]uint32, 10)
-	for i := 0; i < 5; i++ {
-		bitmap[i] = color1
-	}
-	for i := 5; i < 10; i++ {
-		bitmap[i] = color2
-	}
 	copy(ws.Leds(0), bitmap)
 	ws.Render()
 	ws.Wait()
