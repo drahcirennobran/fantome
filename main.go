@@ -42,7 +42,7 @@ func main() {
 	err = ws.Init()
 	checkError(err)
 
-	for k := 0; k < 20; k++ {
+	for k := 0; k < 5; k++ {
 		for j := 0; j < 5; j++ {
 			coincoin(ws, 0x0000ff, 0x000000)
 			time.Sleep(20 * time.Millisecond)
@@ -56,6 +56,14 @@ func main() {
 			time.Sleep(20 * time.Millisecond)
 		}
 	}
+	coincoin(ws, 0x000000ff, 0x0000ff)
+	for j := 0; j < 255; j++ {
+		ws.SetBrightness(0, j)
+	}
+	for j := 255; j >= 0; j-- {
+		ws.SetBrightness(0, j)
+	}
+	coincoin(ws, 0x000000, 0x0000)
 
 	ws.Fini()
 }
