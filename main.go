@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	pixelColor = 255 << 16 // red
+	//pixelColor = 255 << 16 // red
+	pixelColor = 0x0000ff
 )
 
 func checkError(err error) {
