@@ -57,13 +57,14 @@ func main() {
 		}
 	}
 
-	for j := 0; j < 255; j++ {
-		coincoin(ws, 0x000000ff, 0x0000ff, j)
+	for k := 0; k < 5; k++ {
+		for j := 0; j < 255; j++ {
+			coincoin(ws, 0x000000ff, 0x0000ff, j)
+		}
+		for j := 255; j >= 0; j-- {
+			coincoin(ws, 0x000000, 0x0000, j)
+		}
 	}
-	for j := 255; j >= 0; j-- {
-		coincoin(ws, 0x000000, 0x0000, j)
-	}
-
 	ws.Fini()
 }
 func coincoin(ws *ws2811.WS2811, color1, color2 uint32, b int) {
