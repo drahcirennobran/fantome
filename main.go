@@ -25,7 +25,7 @@ const (
 
 func main() {
 
-	gpioPin := flag.Int("gpio-pin", 18, "GPIO pin")
+	gpioPin := flag.Int("gpio-pin", 21, "GPIO pin")
 	brightness := flag.Int("brightness", 128, "Brightness (0-255)")
 
 	flag.Parse()
